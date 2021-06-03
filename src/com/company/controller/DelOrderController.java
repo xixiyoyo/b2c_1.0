@@ -1,0 +1,29 @@
+package com.company.controller;
+
+import com.company.entity.Orders;
+import com.company.service.OrdersService;
+import com.company.service.serviceimpl.OrdersServiceimpl;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet(name = "DelOrderController",value = "/user/safe/delOrder")
+public class DelOrderController extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      OrdersService os = new OrdersServiceimpl();
+      String oid = request.getParameter("oid");
+      Orders orders = os.checkOrderByOid(oid);
+      orders.setO_status(1);
+      int i = os.alterOrder(orders);
+      response.sendRedirect(request.getContextPath()+"/Test.jsp");
+
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      doPost(request,response);
+    }
+}
